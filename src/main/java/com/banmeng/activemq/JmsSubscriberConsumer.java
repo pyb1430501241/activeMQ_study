@@ -9,6 +9,7 @@ import javax.jms.Topic;
  */
 public interface JmsSubscriberConsumer extends JmsConsumer {
 
+
     Topic getTopic() throws JMSException;
 
     boolean getNoLocal() throws JMSException;
