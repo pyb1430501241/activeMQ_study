@@ -14,6 +14,7 @@ public interface JmsConsumer extends Jms {
     /**
      * 接受一个信息, 永远阻塞等待
      * @return 信息
+     * @see Message
      */
     Message receive() throws JMSException;
 
@@ -21,6 +22,7 @@ public interface JmsConsumer extends Jms {
      * 接收一个信息, 等待直至时间结束
      * @param time 等待时间
      * @return 信息
+     * @see Message
      */
     Message receive(long time) throws JMSException;
 

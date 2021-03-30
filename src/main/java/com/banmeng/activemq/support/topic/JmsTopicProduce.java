@@ -22,10 +22,9 @@ public class JmsTopicProduce extends AbstractJmsProduce {
     }
 
     @Override
-    public void init(String topicName) throws JMSException {
-        super.init(topicName);
+    public void init(String topicName, boolean transacted, int acknowledgeMode) throws JMSException {
+        super.init(topicName, transacted, acknowledgeMode);
         this.getProducerLocal().set(this.getSession().createProducer(this.getSession().createTopic(topicName)));
         this.setDeliveryMode(PERSISTENT);
     }
-
 }

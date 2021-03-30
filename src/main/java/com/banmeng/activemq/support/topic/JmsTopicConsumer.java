@@ -22,8 +22,8 @@ public class JmsTopicConsumer extends AbstractJmsConsumer {
     }
 
     @Override
-    public void init(String topicName) throws JMSException {
-        super.init(topicName);
+    public void init(String topicName, boolean transacted, int acknowledgeMode) throws JMSException {
+        super.init(topicName, transacted, acknowledgeMode);
         this.getConsumerLocal().set(this.getSession().createConsumer(this.getSession().createTopic(topicName)));
     }
 

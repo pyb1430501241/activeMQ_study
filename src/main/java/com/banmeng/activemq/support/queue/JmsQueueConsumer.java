@@ -22,8 +22,8 @@ public class JmsQueueConsumer extends AbstractJmsConsumer {
     }
 
     @Override
-    public void init(String queueName) throws JMSException {
-        super.init(queueName);
+    public void init(String queueName, boolean transacted, int acknowledgeMode) throws JMSException {
+        super.init(queueName, transacted, acknowledgeMode);
         this.getConsumerLocal().set(this.getSession().createConsumer(this.getSession().createQueue(queueName)));
     }
 

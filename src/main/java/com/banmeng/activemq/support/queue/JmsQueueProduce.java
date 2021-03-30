@@ -22,10 +22,12 @@ public class JmsQueueProduce extends AbstractJmsProduce {
     }
 
     @Override
-    public void init(String queueName) throws JMSException {
-        super.init(queueName);
+    public void init(String queueName, boolean transacted, int acknowledgeMode) throws JMSException {
+        super.init(queueName, transacted, acknowledgeMode);
         this.getProducerLocal().set(this.getSession().createProducer(this.getSession().createQueue(queueName)));
         this.setDeliveryMode(PERSISTENT);
     }
+
+
 
 }

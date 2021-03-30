@@ -9,40 +9,19 @@ import javax.jms.*;
  * @author 半梦
  * @create 2021-03-20 16:19
  */
-public abstract class AbstractJmsConsumer implements JmsConsumer {
+public abstract class AbstractJmsConsumer
+        extends AbstractJms implements JmsConsumer {
 
     private volatile ActiveMQConnectionFactory activeMQConnectionFactory;
 
-    private ThreadLocal<Session> sessionLocal = new ThreadLocal<>();
-
     private ThreadLocal<MessageConsumer> consumerLocal = new ThreadLocal<>();
-
-    private ThreadLocal<Connection> connectionLocal = new ThreadLocal<>();
 
     protected ThreadLocal<MessageConsumer> getConsumerLocal() {
         return this.consumerLocal;
     }
 
-    protected ThreadLocal<Session> getSessionLocal() {
-        return sessionLocal;
-    }
-
-    protected ThreadLocal<Connection> getConnectionLocal() {
-        return connectionLocal;
-    }
-
     public AbstractJmsConsumer(){
         this.activeMQConnectionFactory = new ActiveMQConnectionFactory();
-    }
-
-    @Override
-    public Connection createActiveMqConnection() throws JMSException {
-        return this.activeMQConnectionFactory.createConnection();
-    }
-
-    @Override
-    public Connection getConnection() throws JMSException {
-        return this.connectionLocal.get();
     }
 
     @Override
@@ -67,9 +46,24 @@ public abstract class AbstractJmsConsumer implements JmsConsumer {
 
     @Override
     public void init(String name) throws JMSException {
-        this.connectionLocal.set(createActiveMqConnection());
+        init(name, Boolean.FALSE, AUTO_ACKNOWLEDGE);
+    }
+
+    @Override
+    public void init(String name, int acknowledgeMode) throws JMSException {
+        init(name, Boolean.FALSE, acknowledgeMode);
+    }
+
+    @Override
+    public void init(String name, boolean transacted) throws JMSException {
+        init(name, transacted, AUTO_ACKNOWLEDGE);
+    }
+
+    @Override
+    public void init(String name, boolean transacted, int acknowledgeMode) throws JMSException {
+        this.getConnectionLocal().set(this.createActiveMqConnection());
         this.getConnection().start();
-        this.sessionLocal.set(this.getConnection().createSession(Boolean.FALSE, Session.AUTO_ACKNOWLEDGE));
+        this.getSessionLocal().set(this.getConnection().createSession(transacted, acknowledgeMode));
     }
 
     @Override
@@ -82,11 +76,6 @@ public abstract class AbstractJmsConsumer implements JmsConsumer {
     @Override
     public ActiveMQConnectionFactory getActiveMQConnectionFactory() {
         return this.activeMQConnectionFactory;
-    }
-
-    @Override
-    public Session getSession() {
-        return this.sessionLocal.get();
     }
 
 }

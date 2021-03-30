@@ -222,18 +222,20 @@ public class ConsumerTest {
      */
     @Test
     public void testTopicSubscriber() throws Exception {
-        JmsSubscriberConsumer consumer = JmsTopicSubscriberConsumer.getInstance();
-        consumer.init(Jms.TOPIC_NAME);
+        JmsConsumer consumer = JmsTopicSubscriberConsumer.getInstance();
+        consumer.init(Jms.TOPIC_NAME, true, Jms.CLIENT_ACKNOWLEDGE);
         consumer.addMessageListener(message -> {
             if(message instanceof TextMessage) {
                 try {
                     String text = ((TextMessage) message).getText();
                     System.out.println("收到持久化订阅, 消费者: " + text);
+                    message.acknowledge();
                 } catch (JMSException e) {
                     System.out.println(e.getMessage());
                 }
             }
         });
+        consumer.commit();
         System.in.read();
         consumer.close();
     }
