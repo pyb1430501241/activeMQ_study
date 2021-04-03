@@ -27,6 +27,7 @@ public class TopicConsumer {
         System.out.println(s);
     }
 
+
     @JmsListener(destination = "${topic}")
     public void receiveListener(TextMessage message) throws Exception{
         System.out.println("topic: " + message.getText());
