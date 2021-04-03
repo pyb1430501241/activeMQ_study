@@ -12,8 +12,6 @@ import javax.jms.*;
 public abstract class AbstractJmsConsumer
         extends AbstractJms implements JmsConsumer {
 
-    private volatile ActiveMQConnectionFactory activeMQConnectionFactory;
-
     private ThreadLocal<MessageConsumer> consumerLocal = new ThreadLocal<>();
 
     protected ThreadLocal<MessageConsumer> getConsumerLocal() {
@@ -21,7 +19,7 @@ public abstract class AbstractJmsConsumer
     }
 
     public AbstractJmsConsumer(){
-        this.activeMQConnectionFactory = new ActiveMQConnectionFactory();
+        super();
     }
 
     @Override
@@ -71,11 +69,6 @@ public abstract class AbstractJmsConsumer
         this.getMessageConsumer().close();
         this.getSession().close();
         this.getConnection().close();
-    }
-
-    @Override
-    public ActiveMQConnectionFactory getActiveMQConnectionFactory() {
-        return this.activeMQConnectionFactory;
     }
 
 }

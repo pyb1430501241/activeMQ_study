@@ -8,6 +8,7 @@ import javax.jms.Message;
 import javax.jms.Session;
 
 /**
+ * 尝试自己封装
  * @author 半梦
  * @create 2021-03-14 17:03
  */

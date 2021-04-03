@@ -13,8 +13,6 @@ import java.io.Serializable;
 public abstract class AbstractJmsProduce
         extends AbstractJms implements JmsProduce {
 
-    private volatile ActiveMQConnectionFactory activeMQConnectionFactory;
-
     private ThreadLocal<MessageProducer> producerLocal = new ThreadLocal<>();
 
     protected ThreadLocal<MessageProducer> getProducerLocal() {
@@ -22,7 +20,7 @@ public abstract class AbstractJmsProduce
     }
 
     public AbstractJmsProduce() {
-        this.activeMQConnectionFactory = new ActiveMQConnectionFactory();
+        super();
     }
 
     @Override
@@ -67,11 +65,6 @@ public abstract class AbstractJmsProduce
         this.getMessageProducer().close();
         this.getSession().close();
         this.getConnection().close();
-    }
-
-    @Override
-    public ActiveMQConnectionFactory getActiveMQConnectionFactory() {
-        return this.activeMQConnectionFactory;
     }
 
     public TextMessage createTextMessage(String text) throws JMSException {

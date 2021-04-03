@@ -4,6 +4,7 @@ import com.banmeng.activemq.support.queue.JmsQueueProduce;
 import com.banmeng.activemq.support.topic.JmsTopicProduce;
 import com.banmeng.activemq.Jms;
 import com.banmeng.activemq.JmsProduce;
+import org.apache.activemq.broker.BrokerService;
 import org.junit.Test;
 
 import javax.jms.MapMessage;
@@ -13,7 +14,6 @@ import javax.jms.MapMessage;
  * @create 2021-03-20 17:28
  */
 public class ProduceTest {
-
 
     /**
      * queue

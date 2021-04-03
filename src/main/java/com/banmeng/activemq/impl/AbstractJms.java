@@ -1,6 +1,7 @@
 package com.banmeng.activemq.impl;
 
 import com.banmeng.activemq.Jms;
+import org.apache.activemq.ActiveMQConnectionFactory;
 
 import javax.jms.*;
 
@@ -10,12 +11,18 @@ import javax.jms.*;
  */
 public abstract class AbstractJms implements Jms {
 
+    private volatile ActiveMQConnectionFactory activeMQConnectionFactory;
+
     private ThreadLocal<Session> sessionLocal = new ThreadLocal<>();
 
     private ThreadLocal<Connection> connectionLocal = new ThreadLocal<>();
 
     protected ThreadLocal<Session> getSessionLocal() {
         return sessionLocal;
+    }
+
+    AbstractJms(){
+        this.activeMQConnectionFactory = new ActiveMQConnectionFactory();
     }
 
     protected ThreadLocal<Connection> getConnectionLocal() {
@@ -45,6 +52,11 @@ public abstract class AbstractJms implements Jms {
     @Override
     public void rollback() throws JMSException {
         this.getSession().rollback();
+    }
+
+    @Override
+    public ActiveMQConnectionFactory getActiveMQConnectionFactory() {
+        return this.activeMQConnectionFactory;
     }
 
 }
